@@ -20,4 +20,6 @@
    - Run `dbt test` to perform tests.  
    - Use `dbt debug` to debug the setup.
 
+5. **Khởi tạo project**:
+-  `dbt init dw_project`
 ---
