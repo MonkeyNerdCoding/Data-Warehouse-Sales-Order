@@ -1,4 +1,4 @@
-WITH stg_package_type AS(
+WITH dim_package_type AS(
     SELECT 
     CAST(package_type_id AS INT) AS package_type_key,
     CAST(package_type_name AS STRING) AS package_type_name
@@ -7,4 +7,4 @@ WITH stg_package_type AS(
 SELECT 
     COALESCE(package_type_key,0) AS package_type_key,
     COALESCE(package_type_name,'Undefined') AS package_type_name
-FROM stg_package_type
+FROM dim_package_type
