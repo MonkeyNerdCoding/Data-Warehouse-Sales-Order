@@ -12,7 +12,7 @@ SELECT
     COALESCE(stg_city.state_province_key,0) AS state_province_key,
     COALESCE(stg_province.province_name,"Undefined") AS province_name,
     COALESCE(stg_province.country_key,0) AS country_key,
-    COALESCE(stg_province.country_name,"Undefined") AS country_name
+    COALESCE(stg_province.country_name,"Undefined") AS country_name 
 FROM stg_city
 LEFT JOIN {{ref('stg_province')}}
 ON stg_city.state_province_key = stg_province.province_key
