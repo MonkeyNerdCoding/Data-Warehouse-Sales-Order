@@ -1,7 +1,37 @@
 # Data-Warehouse-Sales-Order
 
-## Setup Instructions
+## 🔐 Chuẩn bị cấu hình BigQuery
 
+1. Vào Google Cloud Console → IAM & Admin → Service Accounts → tạo key mới định dạng `JSON`.
+2. Tải file về và lưu vào `profiles/credentials.json`
+3. Tạo file `profiles/profiles.yml` như sau:
+
+dw_project:
+  outputs:
+    dev:
+      dataset: dw_sales_order_project
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: /usr/app/gcp-key.json
+      location: asia-southeast1  
+      method: service-account
+      priority: interactive
+      project: learn-dbt-465312
+      threads: 4
+      type: bigquery
+  target: dev
+
+
+  ## 🐳 Chạy project với Docker
+docker-compose build
+docker-compose up -d
+docker-compose run dbt run --select (Chọn model bạn muốn)
+docker-compose exec dbt bash (Khi muốn chọc thẳng vào container để chạy lệnh)
+
+
+
+
+## Setup Instructions WITHOUT DOCKER
 1. **Activate Virtual Environment**:  
    - Create a virtual environment by running `python -m venv .venv` in the `dw_project` directory (if `.venv` is not already present).  
    - Activate the virtual environment with `.\.venv\Scripts\Activate.ps1`.  
@@ -23,3 +53,6 @@
 5. **Khởi tạo project**:
 -  `dbt init dw_project`
 ---
+
+
+READ ME chạy project:

@@ -1,0 +1,15 @@
+dw_project:
+  outputs:
+    dev:
+      dataset: dw_sales_order_project
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: /usr/app/gcp-key.json
+      # keyfile: D:\DA\DataWareHouse_SaleOrder\Data-Warehouse-Sales-Order\dw_project\gcp-key.json
+      location: asia-southeast1  
+      method: service-account
+      priority: interactive
+      project: learn-dbt-465312
+      threads: 4
+      type: bigquery
+  target: dev

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  dbt:
+    build:
+      context: .
+    volumes:
+      - ./dw_project:/usr/app
+      - ./profiles:/root/.dbt
+    entrypoint: ["dbt"]   
+    command: tail -f /dev/null
+    tty: true
+
+        # command: /bin/bash
