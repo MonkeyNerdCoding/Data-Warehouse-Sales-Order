@@ -55,4 +55,10 @@ docker-compose exec dbt bash (Khi muốn chọc thẳng vào container để ch�
 ---
 
 
-READ ME chạy project:
+## Nếu chạy ngoài net 
+1. Install python (Remember to add python to path) 
+2. Install pip in dockerfile 
+3. Install python -m .venv venv 
+4. Open powersell run this : Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser 
+5. Add json key to .venv folder (sài lại key cũ ở nhà cũng được)
+
