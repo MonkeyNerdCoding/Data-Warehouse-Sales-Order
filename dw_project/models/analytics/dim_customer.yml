@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: "Dimension table for customer details"
+    columns:
+      - name: customer_key
+        description: "Primary key for customer"
+        tests:
+          - not_null
+          - unique
+      - name: customer_category_key
+        description: "Foreign key to customer category"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customer_category')
+              field: customer_category_key
+      # - name: customer_name
+      #   description: "Name of the customer"
+      #   tests:
+      #     - not_null
+      # - name: email
+      #   description: "Email of the customer"
+      #   tests:
+      #     - not_null
+      # - name: phone
+      #   description: "Phone number of the customer"
+      #   tests:
+      #     - not_null
+      # - name: address
+      #   description: "Address of the customer"
+      #   tests:
+      #     - not_null
+      # - name: city
+      #   description: "City of the customer"
+      #   tests:
+      #     - not_null
+      # - name: state
+      #   description: "State of the customer"
+      #   tests:
+      #     - not_null
+      # - name: country
+      #   description: "Country of the customer"
+      #   tests:
+      #     - not_null
+      # - name: zip_code
+      #   description: "Zip code of the customer"
+      #   tests:
+      #     - not_null
+      # - name: customer_key
+      #   description: "Primary key for customer"
+      #   tests:
+      #     - not_null
+      #     - unique

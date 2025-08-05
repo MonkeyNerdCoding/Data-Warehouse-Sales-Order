@@ -100,12 +100,12 @@ WITH dim_product AS (
 
 SELECT
     dpf.*,
-    stgs.supplier_name,
-    stgs.supplier_category_key,
-    stgs.supplier_category_name,
-    unitpt.package_type_name AS unit_package_name,
-    outerpt.package_type_name AS outer_package_name,
-    stgcol.color_name
+    COALESCE(stgs.supplier_name, 'Undefined') AS supplier_name,
+    COALESCE(stgs.supplier_category_key, 0) AS supplier_category_key,
+    COALESCE(stgs.supplier_category_name, 'Undefined') AS supplier_category_name,
+    COALESCE(unitpt.package_type_name, 'Undefined') AS unit_package_name,
+    COALESCE(outerpt.package_type_name, 'Undefined') AS outer_package_name,
+    COALESCE(stgcol.color_name, 'Undefined') AS color_name
 FROM dim_product_final dpf
 LEFT JOIN {{ref('stg_supplier')}} stgs
     ON dpf.supplier_key = stgs.supplier_key

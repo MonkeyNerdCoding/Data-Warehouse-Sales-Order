@@ -69,21 +69,19 @@ dim_customer_final AS (
         bg.buying_group_name,
 
         -- Join contact person names
-        p1.full_name AS primary_contact_full_name,
-        p2.full_name AS alternate_contact_person_name,
-        p3.full_name AS bill_to_customer_name,
+        COALESCE(p1.full_name,"Undefined") AS primary_contact_full_name,
+        COALESCE(p2.full_name,"Undefined") AS alternate_contact_person_name,
+        COALESCE(p3.full_name,"Undefined") AS bill_to_customer_name,
 
         -- Join delivery method
-        dm.delivery_method_name,
-
+        COALESCE(dm.delivery_method_name,"Undefined") AS delivery_method_name,
         -- Join city and then province, country
-        c.city_name AS delivery_city_name,
-        c.province_name AS delivery_state_province_name,
-        c.country_name AS delivery_country_name,
-        c.province_name AS postal_state_province_name,
-        c.country_name AS postal_country_name,
-
-        cc.customer_category_name AS customer_category_name
+        COALESCE(c.city_name,"Undefined") AS delivery_city_name,
+        COALESCE(c.province_name,"Undefined") AS delivery_state_province_name,
+        COALESCE(c.country_name,"Undefined") AS delivery_country_name,
+        COALESCE(c.province_name,"Undefined") AS postal_state_province_name,
+        COALESCE(c.country_name,"Undefined") AS postal_country_name,
+        COALESCE(cc.customer_category_name,"Undefined") AS customer_category_name
 
     FROM dim_customer_cleaned d
     LEFT JOIN {{ ref('stg_buying_group') }} bg ON d.buying_group_key = bg.buying_group_key

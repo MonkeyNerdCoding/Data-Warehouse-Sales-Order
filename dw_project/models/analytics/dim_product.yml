@@ -1,0 +1,111 @@
+version: 2
+
+models:
+  - name: dim_product
+    description: "Dimension table for product details"
+    columns:
+      - name: stock_item_key
+        description: "Primary key for stock item"
+        tests:
+          - not_null
+          - unique
+
+      - name: stock_item_name
+        description: "Name of the stock item"
+        tests:
+          - not_null
+
+      - name: supplier_key
+        description: "Foreign key to supplier"
+        tests:
+          - not_null
+
+      - name: unit_package_key
+        description: "Foreign key to unit package type"
+        tests:
+          - not_null
+
+      - name: outer_package_key
+        description: "Foreign key to outer package type"
+        tests:
+          - not_null
+
+      - name: color_key
+        description: "Foreign key to color"
+        tests:
+          - not_null
+
+      - name: lead_time_days
+        description: "Lead time in days"
+        tests:
+          - not_null
+
+      - name: quantity
+        description: "Quantity per outer package"
+        tests:
+          - not_null
+
+      - name: unit_price
+        description: "Unit price of product"
+        tests:
+          - not_null
+
+      - name: tax_rate
+        description: "Tax rate for the product"
+        tests:
+          - not_null
+
+      - name: brand
+        description: "Brand of the product"
+        tests:
+          - not_null
+
+      - name: size
+        description: "Size description"
+        tests:
+          - not_null
+
+      - name: recommended_retail_price
+        description: "Recommended retail price"
+        tests:
+          - not_null
+
+      - name: barcode
+        description: "Barcode identifier"
+        tests:
+          - not_null
+
+      - name: is_chiller_stock
+        description: "Chiller stock classification"
+        tests:
+          - not_null
+
+      - name: supplier_name
+        description: "Name of supplier"
+        tests:
+          - not_null
+
+      - name: supplier_category_key
+        description: "Foreign key to supplier category"
+        tests:
+          - not_null
+
+      - name: supplier_category_name
+        description: "Name of supplier category"
+        tests:
+          - not_null
+
+      - name: unit_package_name
+        description: "Unit package name"
+        tests:
+          - not_null
+
+      - name: outer_package_name
+        description: "Outer package name"
+        tests:
+          - not_null
+
+      - name: color_name
+        description: "Color name"
+        tests:
+          - not_null
