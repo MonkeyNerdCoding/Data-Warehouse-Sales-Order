@@ -4,6 +4,19 @@ WITH stg_province AS (
     CAST(state_province_name AS STRING) AS province_name,
     CAST(country_id AS INT) AS country_key
     FROM `vit-lam-data.wide_world_importers.application__state_provinces`
+
+    UNION ALL 
+    SELECT 
+    0 AS province_key,
+    "Undefined" AS province_name,
+    0 AS country_key,
+    
+    UNION ALL 
+    SELECT 
+    -1 AS province_key,
+    "ERROR" AS province_name,
+    0 AS country_key,
+
 )
 
 SELECT 

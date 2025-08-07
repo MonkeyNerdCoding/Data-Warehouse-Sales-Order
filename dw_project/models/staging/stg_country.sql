@@ -3,6 +3,17 @@ WITH stg_country AS (
     CAST(country_id AS INT) AS country_key,
     CAST(country_name AS STRING) AS country_name
     FROM `vit-lam-data.wide_world_importers.application__countries`
+
+    UNION ALL 
+    SELECT 
+    0 AS country_key,
+    "Undefined" AS country_name
+
+    UNION ALL
+    SELECT 
+    -1 AS country_key,
+    "ERROR" AS country_name
+
 )
 
 SELECT 

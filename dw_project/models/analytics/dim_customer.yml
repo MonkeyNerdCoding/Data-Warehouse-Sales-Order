@@ -3,12 +3,18 @@ version: 2
 models:
   - name: dim_customer
     description: "Dimension table for customer details"
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.sales__customers`"
+          error_if: "<>2"
+          warn_if: "<>2"
     columns:
       - name: customer_key
         description: "Primary key for customer"
         tests:
           - not_null
           - unique
+
       - name: customer_category_key
         description: "Foreign key to customer category"
         tests:
@@ -16,40 +22,88 @@ models:
           - relationships:
               to: ref('stg_customer_category')
               field: customer_category_key
-      # - name: customer_name
-      #   description: "Name of the customer"
-      #   tests:
-      #     - not_null
-      # - name: email
-      #   description: "Email of the customer"
-      #   tests:
-      #     - not_null
-      # - name: phone
-      #   description: "Phone number of the customer"
-      #   tests:
-      #     - not_null
-      # - name: address
-      #   description: "Address of the customer"
-      #   tests:
-      #     - not_null
-      # - name: city
-      #   description: "City of the customer"
-      #   tests:
-      #     - not_null
-      # - name: state
-      #   description: "State of the customer"
-      #   tests:
-      #     - not_null
-      # - name: country
-      #   description: "Country of the customer"
-      #   tests:
-      #     - not_null
-      # - name: zip_code
-      #   description: "Zip code of the customer"
-      #   tests:
-      #     - not_null
-      # - name: customer_key
-      #   description: "Primary key for customer"
-      #   tests:
-      #     - not_null
-      #     - unique
+
+      - name: customer_name
+        description: "Name of the customer"
+        tests:
+          - not_null
+
+      - name: buying_group_key
+        description: "Foreign key to buying group"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_buying_group')
+              field: buying_group_key
+
+      - name: delivery_method_key
+        description: "Foreign key to delivery method"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_delivery_method')
+              field: delivery_method_key
+
+      - name: delivery_city_key
+        description: "Foreign key to city dimension"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_city')
+              field: city_key
+
+      - name: primary_contact_person_key
+        description: "Foreign key to dim_person (primary contact)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_person')
+              field: person_key
+
+      - name: alternate_contact_person_key
+        description: "Foreign key to dim_person (alternate contact)"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_person')
+              field: person_key
+
+      - name: bill_to_customer_key
+        description: "Foreign key to dim_person (bill to customer)"
+        tests:
+          - not_null
+              
+
+      - name: credit_limit
+        description: "Credit limit assigned to customer"
+        tests:
+          - not_null
+
+      - name: standard_discount_percentage
+        description: "Standard discount applied to customer"
+        tests:
+          - not_null
+
+      - name: account_opened_date
+        description: "Date when account was opened"
+        tests:
+          - not_null
+
+      - name: payment_days
+        description: "Number of days to make payment"
+        tests:
+          - not_null
+
+      - name: is_statement_sent
+        description: "Statement status: Sent / Not Sent / Undefined"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Statement Sent', 'No Statement', 'Undefined', 'Error']
+
+      - name: is_on_credit_hold
+        description: "Credit hold status: On / Not / Undefined"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['On Credit Hold', 'Not On Credit Hold', 'Undefined', 'Error']

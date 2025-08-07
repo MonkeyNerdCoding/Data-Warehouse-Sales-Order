@@ -1,14 +1,14 @@
-version: '3'
+version: "3.8"
 
 services:
   dbt:
-    build:
-      context: .
+    build: .
+    container_name: dbt-bigquery
     volumes:
-      - ./dw_project:/usr/app
-      - ./profiles:/root/.dbt
-    entrypoint: ["dbt"]   
-    command: tail -f /dev/null
+      - ./dw_project:/usr/app                     # Mount code chính
+      - ./profiles/profiles.yml:/root/.dbt/profiles.yml:ro # Mount cấu hình
+      - ./dw_project/gcp-key.json:/usr/app/gcp-key.json:ro # Mount service account key
+    environment:
+      - DBT_PROFILES_DIR=/root/.dbt
+    stdin_open: true
     tty: true
-
-        # command: /bin/bash

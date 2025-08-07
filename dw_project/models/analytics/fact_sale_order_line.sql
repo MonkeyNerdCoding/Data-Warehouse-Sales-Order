@@ -37,6 +37,7 @@ SELECT
 FROM fact_sale_order_line fsol
 LEFT JOIN {{ ref('stg_fact_order') }} stgfo
     ON fsol.order_key = stgfo.order_key
+    
 
 LEFT JOIN {{ ref('dim_sale_order_line_indicator') }} dsil
     ON FARM_FINGERPRINT(CONCAT(CAST(stgfo.is_undersupply_backordered AS STRING), ',', CAST(fsol.package_type_key AS STRING))) = dsil.composite_key

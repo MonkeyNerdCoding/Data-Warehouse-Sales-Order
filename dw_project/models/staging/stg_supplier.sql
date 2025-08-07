@@ -4,6 +4,19 @@ WITH stg_supplier AS (
     CAST(supplier_name AS STRING) AS supplier_name,
     CAST(supplier_category_id AS INT) AS supplier_category_key
     FROM `vit-lam-data.wide_world_importers.purchasing__suppliers`
+
+    UNION ALL 
+    SELECT 
+    0 AS supplier_key,
+    "Undefined" AS supplier_name,
+    0 AS supplier_category_key,
+
+    UNION ALL 
+    SELECT 
+    -1 AS supplier_key,
+    "ERROR" AS supplier_name,
+    0 AS supplier_category_key,
+
 )
 SELECT 
     COALESCE(stgs.supplier_key,0) AS supplier_key,
