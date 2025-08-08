@@ -5,8 +5,8 @@ WITH dim_package_type AS(
     FROM `vit-lam-data.wide_world_importers.warehouse__package_types`
 ),dim_package_type_final AS (
     SELECT 
-    COALESCE(package_type_key,0) AS package_type_key,
-    COALESCE(package_type_name,'Undefined') AS package_type_name
+    package_type_key,
+    package_type_name
     FROM dim_package_type
 
     UNION ALL 
@@ -20,7 +20,9 @@ WITH dim_package_type AS(
     'Error' AS package_type_name
 )
 SELECT 
-    *
+    COALESCE(package_type_key, 0) AS package_type_key,
+    COALESCE(package_type_name, 'Undefined') AS package_type_name
+
 FROM dim_package_type_final
 
 

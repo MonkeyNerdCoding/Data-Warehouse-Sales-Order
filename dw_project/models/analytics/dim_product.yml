@@ -3,12 +3,19 @@ version: 2
 models:
   - name: dim_product
     description: "Dimension table for product details"
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.warehouse__stock_items`"
+          error_if: "<>2"
+          warn_if: "<>2"
+  
     columns:
       - name: stock_item_key
         description: "Primary key for stock item"
         tests:
           - not_null
           - unique
+
 
       - name: stock_item_name
         description: "Name of the stock item"
@@ -19,41 +26,63 @@ models:
         description: "Foreign key to supplier"
         tests:
           - not_null
+          - relationships:
+              to: ref('stg_supplier')
+              field: supplier_key
 
       - name: unit_package_key
         description: "Foreign key to unit package type"
         tests:
           - not_null
+          - relationships:
+              to: ref('dim_package_type')
+              field: package_type_key
 
       - name: outer_package_key
         description: "Foreign key to outer package type"
         tests:
           - not_null
+          - relationships:
+              to: ref('dim_package_type')
+              field: package_type_key
 
       - name: color_key
         description: "Foreign key to color"
         tests:
           - not_null
+          - relationships:
+              to: ref('stg_color')
+              field: color_key
 
       - name: lead_time_days
         description: "Lead time in days"
         tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: -1
 
       - name: quantity
         description: "Quantity per outer package"
         tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: -1
 
       - name: unit_price
         description: "Unit price of product"
         tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: -1
+
 
       - name: tax_rate
         description: "Tax rate for the product"
         tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: -1
+              # max_value: 15
 
       - name: brand
         description: "Brand of the product"
@@ -69,6 +98,8 @@ models:
         description: "Recommended retail price"
         tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: -1
 
       - name: barcode
         description: "Barcode identifier"
@@ -79,6 +110,9 @@ models:
         description: "Chiller stock classification"
         tests:
           - not_null
+          - accepted_values:
+              values: ['Chiller Stock', 'Non-Chiller Stock', 'Undefined', 'ERROR']
+
 
       - name: supplier_name
         description: "Name of supplier"
@@ -109,3 +143,5 @@ models:
         description: "Color name"
         tests:
           - not_null
+
+

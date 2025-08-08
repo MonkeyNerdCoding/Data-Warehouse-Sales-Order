@@ -12,14 +12,12 @@ WITH stg_buying_group AS (
     UNION ALL 
     SELECT 
     0 AS buying_group_key,
-    "Undefined" AS buying_group_name,
-    FROM stg_buying_group
+    "Undefined" AS buying_group_name
 
     UNION ALL 
     SELECT 
     -1 AS buying_group_key,
-    "ERROR" AS buying_group_name,
-    FROM stg_buying_group
+    "ERROR" AS buying_group_name
 )
 SELECT *
 FROM stg_buying_group_final

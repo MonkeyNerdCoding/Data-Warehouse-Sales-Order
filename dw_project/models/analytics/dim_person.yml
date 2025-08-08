@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: dim_person
+    description: "Dimension table for person details"
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.application__people`"
+          error_if: "<>2"
+          warn_if: "<>2"    
+    
+    columns:
+      - name: person_key
+        description: "Primary key for person"
+        tests:
+          - not_null
+          - unique
+
+      - name: full_name
+        description: "Full name of the person"
+        tests:
+          - not_null
+
+      - name: preferred_name
+        description: "Preferred name of the person"
+        tests:
+          - not_null
+
+      - name: search_name
+        description: "Search name for lookup"
+        tests:
+          - not_null
+
+      - name: is_permitted_to_logon
+        description: "Indicates whether the person can log on"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Permitted to logon', 'Not permitted to logon', 'Undefined', 'ERROR']
+
+      - name: is_external_logon_provider
+        description: "Indicates if the logon provider is external"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['External logon provider', 'Not external logon provider', 'Undefined', 'ERROR']
+
+      - name: is_system_user
+        description: "Indicates if the person is a system user"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['System user', 'Not system user', 'Undefined', 'ERROR']
+
+      - name: is_employee
+        description: "Indicates if the person is an employee"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Employee', 'Not employee', 'Undefined', 'ERROR']
+
+      - name: is_salesperson
+        description: "Indicates if the person is a salesperson"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Salesperson', 'Not salesperson', 'Undefined', 'ERROR']

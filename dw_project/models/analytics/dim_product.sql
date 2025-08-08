@@ -42,21 +42,21 @@ WITH dim_product AS (
 
 ), dim_product_final AS (
     SELECT
-        COALESCE(dp.stock_item_key, 0) AS stock_item_key,
-        COALESCE(dp.stock_item_name, "Undefined") AS stock_item_name,
-        COALESCE(dp.supplier_key, 0) AS supplier_key,
-        COALESCE(dp.unit_package_key, 0) AS unit_package_key,
-        COALESCE(dp.outer_package_key, 0) AS outer_package_key,
-        COALESCE(dp.color_key, 0) AS color_key,
-        COALESCE(dp.lead_time_days, 0) AS lead_time_days,
-        COALESCE(dp.quantity, 0) AS quantity,
-        COALESCE(dp.unit_price, 0) AS unit_price,
-        COALESCE(dp.tax_rate, 0) AS tax_rate,
-        COALESCE(dp.brand, "Undefined") AS brand,
-        COALESCE(dp.size, "Undefined") AS size,
-        COALESCE(dp.recommended_retail_price, 0) AS recommended_retail_price,
-        COALESCE(dp.barcode, "Undefined") AS barcode,
-        COALESCE(dp.is_chiller_stock, "Undefined") AS is_chiller_stock
+        dp.stock_item_key,
+        dp.stock_item_name,
+        dp.supplier_key,
+        dp.unit_package_key,
+        dp.outer_package_key,
+        dp.color_key,
+        dp.lead_time_days,
+        dp.quantity,
+        dp.unit_price,
+        dp.tax_rate,
+        dp.brand,
+        dp.size,
+        dp.recommended_retail_price,
+        dp.barcode,
+        dp.is_chiller_stock
     FROM dim_product_boolean_converted dp
 
     UNION ALL
@@ -82,7 +82,7 @@ WITH dim_product AS (
 
     SELECT 
         -1 AS stock_item_key,
-        "Undefined" AS stock_item_name,
+        "ERROR" AS stock_item_name,
         -1 AS supplier_key,
         -1 AS unit_package_key,
         -1 AS outer_package_key,
@@ -99,13 +99,30 @@ WITH dim_product AS (
 )
 
 SELECT
-    dpf.*,
+    COALESCE(dpf.stock_item_key, 0) AS stock_item_key,
+    COALESCE(dpf.stock_item_name, 'Undefined') AS stock_item_name,
+    COALESCE(dpf.supplier_key, 0) AS supplier_key,
+    COALESCE(dpf.unit_package_key, 0) AS unit_package_key,
+    COALESCE(dpf.outer_package_key, 0) AS outer_package_key,
+    COALESCE(dpf.color_key, 0) AS color_key,
+    COALESCE(dpf.lead_time_days, 0) AS lead_time_days,
+    COALESCE(dpf.quantity, 0) AS quantity,
+    COALESCE(dpf.unit_price, 0) AS unit_price,
+    COALESCE(dpf.tax_rate, 0) AS tax_rate,
+    COALESCE(dpf.brand, 'Undefined') AS brand,
+    COALESCE(dpf.size, 'Undefined') AS size,
+    COALESCE(dpf.recommended_retail_price, 0) AS recommended_retail_price,
+    COALESCE(dpf.barcode, 'Undefined') AS barcode,
+    COALESCE(dpf.is_chiller_stock, 'Undefined') AS is_chiller_stock,
+
+
     COALESCE(stgs.supplier_name, 'Undefined') AS supplier_name,
     COALESCE(stgs.supplier_category_key, 0) AS supplier_category_key,
     COALESCE(stgs.supplier_category_name, 'Undefined') AS supplier_category_name,
     COALESCE(unitpt.package_type_name, 'Undefined') AS unit_package_name,
     COALESCE(outerpt.package_type_name, 'Undefined') AS outer_package_name,
     COALESCE(stgcol.color_name, 'Undefined') AS color_name
+
 FROM dim_product_final dpf
 LEFT JOIN {{ref('stg_supplier')}} stgs
     ON dpf.supplier_key = stgs.supplier_key

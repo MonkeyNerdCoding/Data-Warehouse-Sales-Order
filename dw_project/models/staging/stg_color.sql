@@ -6,13 +6,13 @@ WITH stg_color AS (
 ),
 stg_color_final AS (
     SELECT 
-    COALESCE(color_key,0) AS color_key,
-    COALESCE(color_name,'Undefined') AS color_name
+    color_key,
+    color_name
     FROM stg_color
 
     UNION ALL
     SELECT 
-    -0 AS color_key,
+    0 AS color_key,
     "Undefined" AS color_name
 
     UNION ALL 
@@ -22,6 +22,6 @@ stg_color_final AS (
 )
     
 SELECT
-    color_key,
-    color_name
+    COALESCE(color_key, 0) AS color_key,
+    COALESCE(color_name, 'Undefined') AS color_name
 FROM stg_color_final

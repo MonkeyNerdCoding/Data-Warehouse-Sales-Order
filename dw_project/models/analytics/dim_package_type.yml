@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: dim_package_type
+    description: "Dimension table for package types"
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.warehouse__package_types`"
+          error_if: "<>2"
+          warn_if: "<>2"    
+    
+    columns:
+      - name: package_type_key
+        description: "Primary key for package type"
+        tests:
+          - not_null
+          - unique
+
+      - name: package_type_name
+        description: "Name of the package type"
+        tests:
+          - not_null

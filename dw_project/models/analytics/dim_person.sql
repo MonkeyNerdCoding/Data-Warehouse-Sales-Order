@@ -40,19 +40,19 @@ WITH dim_person AS (
         WHEN is_salesperson IS TRUE THEN "Salesperson"
         WHEN is_salesperson IS FALSE THEN "Not salesperson"
         ELSE "Undefined"
-    END AS is_salesperson,
+    END AS is_salesperson
     FROM dim_person
 ), dim_person_final AS (
     SELECT
-    COALESCE(person_key,0) AS person_key,
-    COALESCE(full_name,"Undefined") AS full_name,
-    COALESCE(preferred_name,"Undefined") AS preferred_name,
-    COALESCE(search_name,"Undefined") AS search_name,
-    COALESCE(is_permitted_to_logon,"Undefined") AS is_permitted_to_logon,
-    COALESCE(is_external_logon_provider,"Undefined") AS is_external_logon_provider,
-    COALESCE(is_system_user,"Undefined") AS is_system_user,
-    COALESCE(is_employee,"Undefined") AS is_employee,
-    COALESCE(is_salesperson,"Undefined") AS is_salesperson
+    person_key,
+    full_name,
+    preferred_name,
+    search_name,
+    is_permitted_to_logon,
+    is_external_logon_provider,
+    is_system_user,
+    is_employee,
+    is_salesperson
     FROM dim_person_boolean_converted
 
     UNION ALL 
@@ -80,5 +80,16 @@ WITH dim_person AS (
     "ERROR" AS is_salesperson
 )
 
-SELECT * 
+SELECT 
+    COALESCE(person_key, 0) AS person_key,
+    COALESCE(full_name, 'Undefined') AS full_name,
+    COALESCE(preferred_name, 'Undefined') AS preferred_name,
+    COALESCE(search_name, 'Undefined') AS search_name,
+    COALESCE(is_permitted_to_logon, 'Undefined') AS is_permitted_to_logon,
+    COALESCE(is_external_logon_provider, 'Undefined') AS is_external_logon_provider,
+    COALESCE(is_system_user, 'Undefined') AS is_system_user,
+    COALESCE(is_employee, 'Undefined') AS is_employee,
+    COALESCE(is_salesperson, 'Undefined') AS is_salesperson
+
+
 FROM dim_person_final
