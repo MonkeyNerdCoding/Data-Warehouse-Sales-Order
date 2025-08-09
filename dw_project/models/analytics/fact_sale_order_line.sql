@@ -8,9 +8,9 @@ WITH fact_sale_order_line AS (
         CAST(unit_price AS NUMERIC) AS unit_price,
         CAST(picking_completed_when AS DATETIME) AS order_picking_completed_when,
         CAST(tax_rate AS NUMERIC) AS tax_rate,
-        quantity * unit_price AS gross_amount,
-        quantity * unit_price * tax_rate AS tax_amount,
-        quantity * unit_price - quantity * unit_price * tax_rate AS net_amount
+        CAST(quantity * unit_price AS NUMERIC) AS gross_amount,
+        CAST(quantity * unit_price * tax_rate AS NUMERIC) AS tax_amount,
+        CAST(quantity * unit_price - quantity * unit_price * tax_rate AS NUMERIC) AS net_amount
     FROM vit-lam-data.wide_world_importers.sales__order_lines
 )
 

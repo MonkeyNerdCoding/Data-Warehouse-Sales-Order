@@ -1,108 +1,108 @@
-# version: 2
+version: 2
 
-# models:
-#   - name: fact_sale_order_line
-#     description: "Fact table for sales order lines"
+models:
+  - name: fact_sale_order_line
+    description: "Fact table for sales order lines"
 
-#     columns:
-#       - name: order_line_key
-#         description: "Primary key for each sale order line"
-#         tests:
-#           - not_null
-#           - unique
+    columns:
+      - name: order_line_key
+        description: "Primary key for each sale order line"
+        tests:
+          - not_null
+          - unique
 
-#       - name: order_key
-#         description: "Foreign key to sales order"
-#         tests:
-#           - not_null
-#           - relationships:
-#               to: ref('stg_fact_order')
-#               field: order_key
+      - name: order_key
+        description: "Foreign key to sales order"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_fact_order')
+              field: order_key
 
-#       - name: stock_item_key
-#         description: "Foreign key to stock item"
-#         tests:
-#           - not_null
-#           - relationships:
-#               to: ref('dim_product')
-#               field: stock_item_key
+      - name: stock_item_key
+        description: "Foreign key to stock item"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: stock_item_key
 
-#       - name: quantity
-#         description: "Quantity of items ordered"
-#         tests:
-#           - not_null
-#           - dbt_utils.accepted_range:
-#               min_value: -1
+      - name: quantity
+        description: "Quantity of items ordered"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -1
 
-#       - name: unit_price
-#         description: "Price per unit"
-#         tests:
-#           - not_null
-#           - dbt_utils.accepted_range:
-#               min_value: -1
+      - name: unit_price
+        description: "Price per unit"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -1
 
-#       - name: tax_rate
-#         description: "Tax rate applied to the order line"
-#         tests:
-#           - not_null
-#           - dbt_utils.accepted_range:
-#               min_value: -1
+      - name: tax_rate
+        description: "Tax rate applied to the order line"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -1
 
-#       - name: gross_amount
-#         description: "Gross amount = quantity * unit_price"
-#         tests:
-#           - dbt_utils.expression_is_true:
-#               expression: "gross_amount = quantity * unit_price"
+      - name: gross_amount
+        description: "Gross amount = quantity * unit_price"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "= quantity * unit_price"
 
-#       - name: tax_amount
-#         description: "Tax amount = gross_amount * tax_rate"
-#         tests:
-#           - dbt_utils.expression_is_true:
-#               expression: "tax_amount = gross_amount * tax_rate"
+      - name: tax_amount
+        description: "Tax amount = gross_amount * tax_rate"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "= gross_amount * tax_rate"
 
-#       - name: net_amount
-#         description: "Net amount = gross_amount - tax_amount"
-#         tests:
-#           - dbt_utils.expression_is_true:
-#               expression: "net_amount = gross_amount - tax_amount"
+      - name: net_amount
+        description: "Net amount = gross_amount - tax_amount"
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: "= gross_amount - tax_amount"
 
-#       - name: order_picking_completed_when
-#         description: "Datetime when picking was completed"
-#         tests:
-#           - not_null
+      - name: order_picking_completed_when
+        description: "Datetime when picking was completed"
+        tests:
+          - not_null
 
-#       - name: customer_key
-#         description: "Foreign key to customer"
-#         tests:
-#           - not_null
+      - name: customer_key
+        description: "Foreign key to customer"
+        tests:
+          - not_null
 
-#       - name: sale_person_key
-#         description: "Foreign key to salesperson"
-#         tests:
-#           - not_null
+      - name: sale_person_key
+        description: "Foreign key to salesperson"
+        tests:
+          - not_null
 
-#       - name: picked_by_person_key
-#         description: "Foreign key to person who picked the order"
-#         tests:
-#           - not_null
+      - name: picked_by_person_key
+        description: "Foreign key to person who picked the order"
+        tests:
+          - not_null
 
-#       - name: contact_person_key
-#         description: "Foreign key to the contact person"
-#         tests:
-#           - not_null
+      - name: contact_person_key
+        description: "Foreign key to the contact person"
+        tests:
+          - not_null
 
-#       - name: order_date
-#         description: "Date the order was placed"
-#         tests:
-#           - not_null
-#           - dbt_utils.accepted_range:
-#               min_value: "1900-01-01"
-#               max_value: "2016-05-31"
+      - name: order_date
+        description: "Date the order was placed"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: "'2013-01-01'"
+              max_value: "'2016-05-31'"
 
-#       - name: composite_key
-#         description: "Composite key from undersupply_backordered + package_type_key"
-#         tests:
-#           - not_null
-#           - relationships:
-#               to: ref('dim_sale_order_line_indicator')
-#               field: composite_key
+      - name: composite_key
+        description: "Composite key from undersupply_backordered + package_type_key"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sale_order_line_indicator')
+              field: composite_key

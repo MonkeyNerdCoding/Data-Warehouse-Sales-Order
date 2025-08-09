@@ -9,7 +9,7 @@ WITH dim_is_undersupply_backordered AS (
         "Available" AS is_undersupply_backordered 
 )
 SELECT
-    FARM_FINGERPRINT(CONCAT(diub.is_undersupply_backordered_boolean, ',' , dim_package_type.package_type_key))AS composite_key,
+    FARM_FINGERPRINT(CONCAT(diub.is_undersupply_backordered, ',' , dim_package_type.package_type_key))AS composite_key,
     diub.is_undersupply_backordered_boolean,
     diub.is_undersupply_backordered,
     dim_package_type.package_type_key,
