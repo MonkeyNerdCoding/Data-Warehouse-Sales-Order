@@ -3,6 +3,7 @@ version: 2
 models:
   - name: fact_sale_order_line
     description: "Fact table for sales order lines"
+    
 
     columns:
       - name: order_line_key

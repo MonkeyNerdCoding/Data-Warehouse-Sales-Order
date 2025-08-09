@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: stg_province
+    description: "Staging table for provinces with default handling for undefined and error cases."
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.application__state_provinces`"
+          error_if: "<>2"
+          warn_if: "<>2"
+    columns:
+
+      - name: province_key
+        description: "Surrogate key for province. Default 0 = Undefined, -1 = ERROR."
+        tests:
+          - not_null
+          - unique
+
+      - name: province_name
+        description: "Name of the province."
+        tests:
+          - not_null
+
+      - name: country_key
+        description: "Country key from province."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_country')
+              field: country_key
+
+      - name: country_name
+        description: "Name of the country."
+        tests:
+          - not_null

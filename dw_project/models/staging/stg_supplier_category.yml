@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_supplier_category
+    description: "Staging table for supplier categories with default handling for undefined and error cases."
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.purchasing__supplier_categories`"
+          error_if: "<>2"
+          warn_if: "<>2"
+
+    columns:
+      - name: supplier_category_key
+        description: "Surrogate key for supplier category. Default 0 = Undefined, -1 = ERROR."
+        tests:
+          - not_null
+          - unique
+
+      - name: supplier_category_name
+        description: "Name of the supplier category."
+        tests:
+          - not_null
+

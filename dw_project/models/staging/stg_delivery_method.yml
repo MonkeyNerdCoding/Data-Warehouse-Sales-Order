@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stg_delivery_method
+    description: "Staging table for delivery methods with default handling for undefined and error cases."
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.application__delivery_methods`"
+          error_if: "<>2"
+          warn_if: "<>2"
+    columns:
+      - name: delivery_method_key
+        description: "Surrogate key for delivery method. Default 0 = Undefined, -1 = ERROR."
+        tests:
+          - not_null
+          - unique
+
+      - name: delivery_method_name
+        description: "Name of the delivery method."
+        tests:
+          - not_null
+

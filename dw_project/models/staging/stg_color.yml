@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_color
+    description: "Staging table for colors with default handling for undefined and error cases."
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.warehouse__colors`"
+          error_if: "<>2"
+          warn_if: "<>2"
+    columns:
+
+      - name: color_key
+        description: "Surrogate key for color. Default 0 = Undefined, -1 = ERROR."
+        tests:
+          - not_null
+          - unique
+
+      - name: color_name
+        description: "Name of the color."
+        tests:
+          - not_null
+

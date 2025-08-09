@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: stg_country
+    description: "Staging table for countries with default handling for undefined and error cases."
+    tests:
+      - dbt_utils.equal_rowcount:
+          compare_model: "`vit-lam-data.wide_world_importers.application__countries`"
+          error_if: "<>2"
+          warn_if: "<>2"
+
+    columns:
+
+      - name: country_key
+        description: "Surrogate key for country. Default 0 = Undefined, -1 = ERROR."
+        tests:
+          - not_null
+          - unique
+
+      - name: country_name
+        description: "Name of the country."
+        tests:
+          - not_null
+

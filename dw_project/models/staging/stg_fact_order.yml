@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: stg_fact_order
+    description: "Staging fact table for sales orders with customer, salesperson, and other keys."
+    columns:
+
+      - name: order_key
+        description: "Order surrogate key. Default 0 = Undefined, -1 = ERROR."
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_key
+        description: "FK to stg_customer."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customer')
+              field: customer_key
+
+      - name: sale_person_key
+        description: "FK to stg_person for salesperson."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_person')
+              field: person_key
+
+      - name: picked_by_person_key
+        description: "FK to stg_person for picker."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_person')
+              field: person_key
+
+      - name: contact_person_key
+        description: "FK to stg_person for contact."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_person')
+              field: person_key
+
+      - name: order_date
+        description: "Date when the order was placed."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: "'1900-01-01'"
+              max_value: "'2016-05-31'"
+
+      - name: is_undersupply_backordered
+        description: "Order supply status: Backordered, Available, Undefined, or ERROR."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Backordered', 'Available', 'Undefined', 'ERROR']
