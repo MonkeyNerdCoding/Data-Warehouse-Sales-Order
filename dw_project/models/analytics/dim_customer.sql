@@ -125,8 +125,7 @@ dim_customer_enriched AS (
         COALESCE(d.bill_to_customer_key, 0) AS bill_to_customer_key,
         COALESCE(d.is_statement_sent, 'Undefined') AS is_statement_sent,
         COALESCE(d.is_on_credit_hold, 'Undefined') AS is_on_credit_hold,
-        
-        
+
         -- -- Join contact person names
         COALESCE(p1.full_name, 'Undefined') AS primary_contact_full_name,
         COALESCE(p2.full_name, 'Undefined') AS alternate_contact_person_name,
