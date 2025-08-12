@@ -1,47 +1,36 @@
-WITH base_dates AS (
-  SELECT
-    d AS date_key,
-    FORMAT_DATE('%a', d) AS day_of_week_short,
-    FORMAT_DATE('%A', d) AS day_of_week,
-    CASE 
-      WHEN EXTRACT(DAYOFWEEK FROM d) IN (1, 7) THEN 'Weekend'
-      ELSE 'Weekday'
-    END AS is_weekday_or_weekend,
-    DATE_TRUNC(d, MONTH) AS year_month,                     -- DATE
-    FORMAT_DATE('%B', d) AS month,                          -- STRING
-    DATE_TRUNC(d, YEAR) AS year,                            -- DATE
-    EXTRACT(YEAR FROM d) AS year_number,                    -- INT64
-    EXTRACT(QUARTER FROM d) AS quarter_number               -- INT64
-  FROM UNNEST(GENERATE_DATE_ARRAY('2010-01-01', '2030-12-31', INTERVAL 1 DAY)) AS d
+WITH date_range AS (
+  SELECT 
+    MIN(order_date) AS min_date,
+    MAX(order_date) AS max_date
+  FROM {{ ref('stg_fact_order') }}
+  WHERE EXTRACT(YEAR FROM order_date) > 1900
 ),
-
-special_dates AS (
-  SELECT 
-    DATE '1900-01-01' AS date_key,
-    'N/A' AS day_of_week_short,
-    'Undefined' AS day_of_week,
-    'Undefined' AS is_weekday_or_weekend,
-    CAST(NULL AS DATE) AS year_month,
-    CAST(NULL AS STRING) AS month,
-    CAST(NULL AS DATE) AS year,
-    CAST(NULL AS INT64) AS year_number,
-    CAST(NULL AS INT64) AS quarter_number
-  UNION ALL
-  SELECT 
-    DATE '1900-02-01',
-    'N/A',
-    'Error',
-    'Error',
-    CAST(NULL AS DATE),
-    CAST(NULL AS STRING),
-    CAST(NULL AS DATE),
-    CAST(NULL AS INT64),
-    CAST(NULL AS INT64)
+dates AS (
+  SELECT day
+  FROM UNNEST(GENERATE_DATE_ARRAY(
+      (SELECT min_date FROM date_range),
+      (SELECT max_date FROM date_range),
+      INTERVAL 1 DAY
+  )) AS day
+  UNION ALL 
+  SELECT DATE '1900-01-01'
+  UNION ALL 
+  SELECT DATE '1900-02-01'
 )
-
-SELECT *
-FROM base_dates
-UNION ALL
-SELECT *
-FROM special_dates
-ORDER BY date_key
+SELECT
+  CAST(FORMAT_DATE('%Y%m%d', day) AS INT64) AS date_key,
+  day AS full_date,
+  EXTRACT(DAY FROM day) AS day_of_month,
+  EXTRACT(MONTH FROM day) AS month,
+  FORMAT_DATE('%B', day) AS month_name,
+  EXTRACT(QUARTER FROM day) AS quarter,
+  EXTRACT(YEAR FROM day) AS year,
+  FORMAT_DATE('%A', day) AS day_name,
+  EXTRACT(DAYOFWEEK FROM day) AS day_of_week,
+  CASE 
+    WHEN EXTRACT(DAYOFWEEK FROM day) IN (1, 7) THEN 'Weekend'
+    ELSE 'Weekday'
+  END AS day_type,
+  EXTRACT(WEEK FROM day) AS week_of_year
+FROM dates
+ORDER BY full_date
