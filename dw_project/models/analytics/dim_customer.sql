@@ -142,7 +142,9 @@ dim_customer_enriched AS (
         COALESCE(c2.province_name, 'Undefined') AS postal_state_province_name,        -- ✅ SỬA DÙNG c2
         COALESCE(c2.country_name, 'Undefined') AS postal_country_name,                 -- ✅ SỬA DÙNG c2
 
-        cc.customer_category_name AS customer_category_name
+        COALESCE(bg.buying_group_name, 'Undefined') AS buying_group_name,
+        COALESCE(cc.customer_category_name, 'Undefined') AS customer_category_name
+
     FROM dim_customer_final d
     
     LEFT JOIN {{ ref('stg_city') }} c1 

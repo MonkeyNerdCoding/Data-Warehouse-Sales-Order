@@ -180,3 +180,8 @@ models:
         description: "Name of the customer category"
         tests:
           - not_null
+          
+      - name: buying_group_name
+        description: "Name of the buying group"
+        tests:
+          - not_null
