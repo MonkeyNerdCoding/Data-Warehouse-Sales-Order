@@ -1,10 +1,10 @@
 # Data-Warehouse-Sales-Order
 
-## 🔐 Chuẩn bị cấu hình BigQuery
+## 🔐 Setting Up BigQuery Configuration
 
-1. Vào Google Cloud Console → IAM & Admin → Service Accounts → tạo key mới định dạng `JSON`.
-2. Tải file về và lưu vào `profiles/credentials.json`
-3. Tạo file `profiles/profiles.yml` như sau:
+1.  Go to Google Cloud Console → IAM & Admin → Service Accounts → create a new key in **JSON format**.
+2.  Download the key file and save it as `profiles/credentials.json`.
+3.  Create the `profiles/profiles.yml` file with the following content:
 
 dw_project:
   outputs:
@@ -22,7 +22,7 @@ dw_project:
   target: dev
 
 
-  ## 🐳 Chạy project với Docker
+  ## 🐳 Run project with Docker
 1. **docker-compose build**
 2. **docker-compose run --rm dbt run --select (Choose model you want)**
 3. **docker-compose exec dbt bash (When you wanna run in the container)**
@@ -48,9 +48,6 @@ dw_project:
    - Execute `dbt run --select` to run the models.  
    - Run `dbt test` to perform tests.  
    - Use `dbt debug` to debug the setup.
-
-5. **Khởi tạo project**:
--  `dbt init dw_project`
 ---
 
 
