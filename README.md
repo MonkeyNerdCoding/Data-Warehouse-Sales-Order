@@ -23,9 +23,9 @@ dw_project:
 
 
   ## 🐳 Chạy project với Docker
-docker-compose build
-docker-compose run --rm dbt run --select (Chọn model bạn muốn)
-docker-compose exec dbt bash (Khi muốn chọc thẳng vào container để chạy lệnh)
+1. **docker-compose build**
+2. **docker-compose run --rm dbt run --select (Choose model you want)**
+3. **docker-compose exec dbt bash (When you wanna run in the container)**
 
 
 
